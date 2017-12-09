@@ -7,9 +7,11 @@
     "express": "latest",
     "express-session": "^1.15.6",
     "genomelink-node": "latest",
+    "mysql2": "^1.5.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "request": "latest"
+    "request": "latest",
+    "sequelize": "^4.27.0"
   },
   "devDependencies": {
     "react-scripts": "1.0.17"
