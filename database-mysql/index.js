@@ -1,5 +1,7 @@
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize('geneflix', 'root', '', {
+
+
+const sequelize = new Sequelize('geneflix', 'root', 'password', {
   host: 'localhost',
   dialect: 'mysql',
 
@@ -35,14 +37,18 @@ const Movie = sequelize.define('movie', {
   title: Sequelize.STRING,
   description: Sequelize.STRING,
   trailer: Sequelize.STRING,
+  imdb_rating: Sequelize.STRING,
+  RT_rating: Sequelize.STRING
 });
 
 const Watched = sequelize.define('watched', {
-
+  userID: Sequelize.DataTypes.INTEGER,
+  movieID: Sequelize.DataTypes.INTEGER
 });
 
 const Genre = sequelize.define('genre', {
   name: Sequelize.STRING,
+  keyID: Sequelize.DataTypes.INTEGER
 });
 
 // const Preferences = sequelize.define('user', {
@@ -50,8 +56,8 @@ const Genre = sequelize.define('genre', {
 // });
 
 const MovieGenre = sequelize.define('moviegenre', {
-  movieID: Sequelize.integer,
-  genreID: Sequelize.integer,
+  movieID: Sequelize.DataTypes.INTEGER,
+  genreID: Sequelize.DataTypes.INTEGER
 });
 
 
@@ -70,10 +76,11 @@ sequelize.sync()
     birthday: new Date(1980, 6, 20)
   }))
   .then(jane => {
-    console.log(jane.toJSON());
+    // console.log(jane.toJSON());
   });
 
   exports.User = User;
   exports.Movie = Movie;
+  exports.Genre = Genre;
   exports.Watched = Watched;
   exports.MovieGenre = MovieGenre;
