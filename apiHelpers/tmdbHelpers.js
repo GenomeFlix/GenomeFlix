@@ -69,8 +69,12 @@ var MovieList = {
               'sort_by': 'popularity',
               'with_genres': Object.values(genreIds)[i]
             }, function (result) {
-              console.log(result[0], '123123123') 
+              console.log(Array.isArray(result) ? 'result is array' : 'result not array'); 
               // TODO SAVE THIS
+
+
+
+              // TODO
               // MovieList.getTrailersById(result.id, (err, res) => {
               //   if(err){
               //     console.log('broken')
