@@ -6,6 +6,7 @@ const tmdb = require('./apiHelpers/tmdbHelpers.js')
 const bodyParser = require('body-parser')
 const app = express();
 
+console.log('My client secret is',process.env.GENOMELINK_CLIENT_SECRET);
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/public');
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -20,15 +21,17 @@ app.use(session({
 }));
 app.use(express.static('public'));
 
+let reports,
+    authorizeUrl;
 app.get('/', async (req, res) => {
   tmdb.getMoviesByGenre( (result) => {
     console.log(result, 'result')
   });
 
   const scope = `report:agreeableness report:neuroticism report:extraversion report:conscientiousness report:openness report:depression report:anger report:reward-dependence report:harm-avoidance report:gambling report:novelty-seeking`;
-  const authorizeUrl = genomeLink.OAuth.authorizeUrl({ scope: scope });
+  authorizeUrl = genomeLink.OAuth.authorizeUrl({ scope: scope });
   // Fetching a protected resource using an OAuth2 token if exists.
-  let reports = [];
+  reports = [];
   if (req.session.oauthToken) {
     const scopes = scope.split(' ');
     reports = await Promise.all(scopes.map( async (name) => {
@@ -46,6 +49,29 @@ app.get('/', async (req, res) => {
     authorize_url: authorizeUrl,
     reports: reports,
   });
+});
+
+getResults = function() {
+  console.log(reports);
+  if (reports !== undefined) {
+    let temp = [];
+    for (let i = 0 ; i <= 4; i++) {
+      temp.push(reports[i]._data.summary);
+      temp[i].trait = reports[i]._data.phenotype.display_name;
+    }
+    console.log('reports:',temp);
+    return temp;
+  }
+}
+
+app.get('/reports', async (req, res) => {
+  getResults();
+  console.log('getting reports');
+  res.send(reports);
+});
+
+app.get('/authorizeUrl', async (req, res) => {
+  res.send({authorizeUrl});
 });
 
 app.get('/callback', async (req, res) => {

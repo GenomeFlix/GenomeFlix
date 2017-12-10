@@ -8,7 +8,7 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state= {
-
+      traits: []
     }
 
   }
@@ -16,13 +16,21 @@ class Home extends Component {
   componentDidMount() {
     axios.get('/reports')
       .then((data)=> {
-        console.log(data);
-      })
+        let temp = [];
+        console.log('getting reports');
+        for (let i = 0 ; i <= 4; i++) {
+          temp.push(data.data[i]._data.summary);
+          temp[i].trait = data.data[i]._data.phenotype.display_name;
+        }
+        this.setState({
+          traits:temp
+        })
+      }).then(()=>{console.log(this.state.traits)})
   }
 
   render() {
     return (
-      <div>      
+      <div>
         <Header />
         <PreferenceFlow />
       </div>
