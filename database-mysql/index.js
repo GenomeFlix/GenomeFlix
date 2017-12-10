@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 
 
-const sequelize = new Sequelize('geneflix', 'root', 'password', {
+const sequelize = new Sequelize('geneflix', 'root', '', {
   host: 'localhost',
   dialect: 'mysql',
 

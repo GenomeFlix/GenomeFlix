@@ -6,6 +6,7 @@ const tmdb = require('./apiHelpers/tmdbHelpers.js')
 const bodyParser = require('body-parser')
 const app = express();
 
+console.log('My client secret is',process.env.GENOMELINK_CLIENT_SECRET);
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/public');
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -50,7 +51,22 @@ app.get('/', async (req, res) => {
   });
 });
 
+getResults = function() {
+  console.log(reports);
+  if (reports !== undefined) {
+    let temp = [];
+    for (let i = 0 ; i <= 4; i++) {
+      temp.push(reports[i]._data.summary);
+      temp[i].trait = reports[i]._data.phenotype.display_name;
+    }
+    console.log('reports:',temp);
+    return temp;
+  }
+}
+
 app.get('/reports', async (req, res) => {
+  getResults();
+  console.log('getting reports');
   res.send(reports);
 });
 
