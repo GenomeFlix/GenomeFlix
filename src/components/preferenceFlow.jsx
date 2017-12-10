@@ -4,7 +4,21 @@ import { Button, Icon } from 'semantic-ui-react';
 import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
 import MovieList from './movieList.jsx';
 
-const genres = ['Action', 'Adventure', 'Animation', 'Comedy', 'Crime', 'Documentary', 'Drama', 'Family', 'Fantasy', 'History', 'Horror', 'Music', 'Mystery', 'Romance', 'Science Fiction', 'Thriller', 'War', 'Western'];
+const genres = [
+  'Action', 
+  'Animation', 
+  'Comedy', 
+  'Documentary', 
+  'Drama', 
+  'Family', 
+  'Horror', 
+  'Music', 
+  'Romance', 
+  'Science Fiction', 
+  'Thriller', 
+  'War', 
+  'Western'];
+  
 const queries = [
   {
     columns: 2,
