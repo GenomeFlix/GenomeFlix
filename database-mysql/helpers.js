@@ -247,7 +247,7 @@ module.exports = {
         genreID: genreID
       })
       .then(movieGenreEntry => {
-        console.log(movieGenreEntry, 'movie genre entry created.');
+        console.log(filterRow(movieGenreEntry), 'movie genre entry created.');
       });
 
     }

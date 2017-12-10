@@ -3,7 +3,6 @@ const request = require('request');
 const Promise = require('bluebird');
 const dbHelpers = require('../database-mysql/helpers.js');
 
-
 var genreIds = {
   "Action": 28,
   "Animation": 16,
@@ -69,18 +68,19 @@ var MovieList = {
               'sort_by': 'popularity',
               'with_genres': Object.values(genreIds)[i]
             }, function (result) {
-              console.log(Array.isArray(result) ? 'result is array' : 'result not array'); 
-              // TODO SAVE THIS
+              var details = {};
+              console.log('Result is a', result);
+                var genres = result.genres.map(genre => genre.name);
 
+                details.title = result.title;
+                details.description = result.overview;
+                details.imdb_rating = result.popularity;
+                details.RT_rating = result.vote_average;
 
+                console.log('About to save this:', details);
 
-              // TODO
-              // MovieList.getTrailersById(result.id, (err, res) => {
-              //   if(err){
-              //     console.log('broken')
-              //   }
-              //   console.log(res, '@@@@@@')
-              // })
+                dbHelpers.movies.save(details, genres);
+
               cont2[cont2.length] = result;
               if(j === cont.length){
                 console.log(cont2, '@@@@@@@@@@@@@@')
