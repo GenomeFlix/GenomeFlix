@@ -20,15 +20,17 @@ app.use(session({
 }));
 app.use(express.static('public'));
 
+let reports,
+    authorizeUrl;
 app.get('/', async (req, res) => {
   tmdb.getMoviesByGenre( (result) => {
     console.log(result, 'result')
   });
 
   const scope = `report:agreeableness report:neuroticism report:extraversion report:conscientiousness report:openness report:depression report:anger report:reward-dependence report:harm-avoidance report:gambling report:novelty-seeking`;
-  const authorizeUrl = genomeLink.OAuth.authorizeUrl({ scope: scope });
+  authorizeUrl = genomeLink.OAuth.authorizeUrl({ scope: scope });
   // Fetching a protected resource using an OAuth2 token if exists.
-  let reports = [];
+  reports = [];
   if (req.session.oauthToken) {
     const scopes = scope.split(' ');
     reports = await Promise.all(scopes.map( async (name) => {
@@ -46,6 +48,14 @@ app.get('/', async (req, res) => {
     authorize_url: authorizeUrl,
     reports: reports,
   });
+});
+
+app.get('/reports', async (req, res) => {
+  res.send(reports);
+});
+
+app.get('/authorizeUrl', async (req, res) => {
+  res.send({authorizeUrl});
 });
 
 app.get('/callback', async (req, res) => {
