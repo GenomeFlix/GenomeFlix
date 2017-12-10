@@ -1,15 +1,17 @@
+require('dotenv').config()
 const express = require('express');
 const session = require('express-session');
 const genomeLink = require('genomelink-node');
 const tmdb = require('./apiHelpers/tmdbHelpers.js')
 const bodyParser = require('body-parser')
 const app = express();
+
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/public');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(session({
-  secret: 'YOURSECRET',
+  secret: process.env.GENOMELINK_CLIENT_SECRET,
   resave: false,
   saveUninitialized: true,
   cookie: {
@@ -21,7 +23,8 @@ app.use(express.static('public'));
 app.get('/', async (req, res) => {
   tmdb.getMoviesByGenre( (result) => {
     console.log(result, 'result')
-  })
+  });
+
   const scope = `report:agreeableness report:neuroticism report:extraversion report:conscientiousness report:openness report:depression report:anger report:reward-dependence report:harm-avoidance report:gambling report:novelty-seeking`;
   const authorizeUrl = genomeLink.OAuth.authorizeUrl({ scope: scope });
   // Fetching a protected resource using an OAuth2 token if exists.

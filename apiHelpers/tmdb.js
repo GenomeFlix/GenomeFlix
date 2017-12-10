@@ -1,7 +1,8 @@
 var XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
 
+console.log('KEY IS', process.env.TMDB_API_KEY);
 const tmdb = {
-  'api_key': 'API_KEY_HERE',
+  'api_key': process.env.TMDB_API_KEY,
   'base_uri': 'http://api.themoviedb.org/3',
   'images_uri': 'http://image.tmdb.org/t/p',
   'timeout': 5000,
