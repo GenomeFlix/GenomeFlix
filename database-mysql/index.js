@@ -36,7 +36,6 @@ const User = sequelize.define('user', {
 const Movie = sequelize.define('movie', {
   title: Sequelize.STRING,
   description: Sequelize.STRING,
-  trailer: Sequelize.STRING,
   imdb_rating: Sequelize.STRING,
   RT_rating: Sequelize.STRING
 });
